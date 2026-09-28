@@ -255,10 +255,10 @@ export default function RoverDashboard() {
         onSaveIp={(newIp) => setPiIp(newIp)}
       />
 
-      {/* Apple Footer */}
+      {/* Footer */}
       <footer className="mt-12 mb-4 text-center">
-        <p className="text-xs font-semibold text-slate-600 dark:text-slate-400">
-          Designed with Apple Design System &bull; Rover Mania Pro &bull; Made by Prerith.M
+        <p className="text-xs font-semibold text-slate-500">
+          Made by Prerith.M
         </p>
       </footer>
     </main>

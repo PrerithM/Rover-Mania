@@ -42,7 +42,6 @@ export function AppleHeader({
             whileTap={{ scale: 0.94 }}
             className="w-10 h-10 rounded-2xl overflow-hidden bg-white/10 dark:bg-white/10 border border-slate-300/60 dark:border-white/20 shadow-md shrink-0 flex items-center justify-center p-1"
           >
-            {/* Direct Image src to ensure reliable rendering */}
             <img
               src="/RoverMania.png"
               alt="RoverMania Logo"
@@ -50,17 +49,9 @@ export function AppleHeader({
             />
           </motion.div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                Rover<span className="text-blue-600 dark:text-blue-400">Mania</span>
-              </h1>
-              <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">
-                PRO 2.0
-              </span>
-            </div>
-            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium hidden sm:block">
-              Apple Dynamic Control System
-            </p>
+            <h1 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              Rover<span className="text-blue-600 dark:text-blue-400">Mania</span>
+            </h1>
           </div>
         </div>
 
