@@ -34,31 +34,31 @@ export function IpSettingsModal({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md font-mono">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="w-full max-w-md rounded-3xl apple-glass p-6 shadow-2xl border border-white/30 dark:border-white/10"
+            className="w-full max-w-md rounded-2xl carbon-panel p-6 shadow-[0_0_40px_rgba(6,182,212,0.3)] border-2 border-cyan-500/40 text-cyan-200"
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-200/50 dark:border-white/10">
+            <div className="flex items-center justify-between pb-4 mb-4 border-b border-cyan-500/20">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/50 flex items-center justify-center">
                   <Server className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                    Rover Connection Settings
+                  <h3 className="text-sm font-black uppercase tracking-wider text-white">
+                    NETWORK & HUD ENDPOINTS
                   </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Configure target Raspberry Pi network endpoints
+                  <p className="text-[10px] text-slate-400">
+                    TARGET RASPBERRY PI NETWORK CONFIG
                   </p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 rounded-2xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/10 transition-all"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/60 transition-all"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -67,29 +67,29 @@ export function IpSettingsModal({
             {/* Form */}
             <form onSubmit={handleSave} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Raspberry Pi IP Address
+                <label className="block text-xs font-bold uppercase tracking-wider text-cyan-400 mb-1.5">
+                  RASPBERRY PI IP ADDRESS
                 </label>
                 <input
                   type="text"
                   value={ipAddress}
                   onChange={(e) => setIpAddress(e.target.value)}
                   placeholder="e.g. 10.248.130.62"
-                  className="w-full bg-slate-200/60 dark:bg-white/10 border border-slate-300/40 dark:border-white/10 rounded-2xl px-4 py-3 text-sm font-mono text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-slate-950 border-2 border-cyan-500/40 rounded-xl px-4 py-3 text-sm font-mono text-cyan-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 shadow-[inset_0_0_10px_rgba(6,182,212,0.15)]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="p-3 rounded-2xl bg-slate-200/40 dark:bg-white/5 border border-slate-300/30 dark:border-white/5">
-                  <span className="text-slate-400 block mb-0.5">WebSocket Motor Port</span>
-                  <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
-                    :8765
+                <div className="p-3 rounded-xl bg-slate-950 border border-cyan-500/20">
+                  <span className="text-slate-400 block mb-0.5 text-[10px] uppercase">MOTOR WEBSOCKET</span>
+                  <span className="font-mono font-bold text-cyan-300">
+                    :8765 (ws://)
                   </span>
                 </div>
-                <div className="p-3 rounded-2xl bg-slate-200/40 dark:bg-white/5 border border-slate-300/30 dark:border-white/5">
-                  <span className="text-slate-400 block mb-0.5">MediaMTX WHEP Port</span>
-                  <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
-                    :8889
+                <div className="p-3 rounded-xl bg-slate-950 border border-cyan-500/20">
+                  <span className="text-slate-400 block mb-0.5 text-[10px] uppercase">MEDIAMTX WHEP</span>
+                  <span className="font-mono font-bold text-cyan-300">
+                    :8889 (http://)
                   </span>
                 </div>
               </div>
@@ -98,22 +98,22 @@ export function IpSettingsModal({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2.5 rounded-2xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/10 transition-all"
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold uppercase text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/50 transition-all"
                 >
-                  Cancel
+                  CANCEL
                 </button>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   type="submit"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-lg shadow-blue-500/25 transition-all"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-extrabold shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all uppercase tracking-wider"
                 >
                   {saved ? (
                     <>
-                      <Check className="w-4 h-4 text-emerald-300" /> Saved!
+                      <Check className="w-4 h-4 text-emerald-300" /> CONFIRMED!
                     </>
                   ) : (
                     <>
-                      <Save className="w-4 h-4" /> Save Endpoints
+                      <Save className="w-4 h-4" /> SAVE ENDPOINTS
                     </>
                   )}
                 </motion.button>
@@ -125,3 +125,4 @@ export function IpSettingsModal({
     </AnimatePresence>
   );
 }
+

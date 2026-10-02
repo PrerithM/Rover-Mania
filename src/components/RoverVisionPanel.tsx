@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bot, Send, Trash2, Sparkles, Loader2 } from "lucide-react";
+import { Bot, Send, Trash2, Sparkles, Loader2, Eye, Terminal } from "lucide-react";
 
 export type Message = { role: "user" | "ai"; text: string };
 
@@ -27,68 +27,73 @@ export function RoverVisionPanel({
 
   const handleSend = () => {
     if (!inputText.trim() && !isAnalyzing) return;
-    onSendPrompt(inputText);
+    onSendPrompt(inputText || "Describe what you see in this live camera feed in one concise sentence.");
     setInputText("");
   };
 
   const samplePrompts = [
-    "What obstacles are in front of the rover?",
-    "Describe the environment in one sentence.",
-    "Is the path clear for navigation?",
+    "Identify obstacles in front of the rover",
+    "Describe environment & terrain type",
+    "Assess navigation safety & path clear status",
   ];
 
   return (
-    <div
-      className={`flex flex-col h-full rounded-3xl apple-glass p-5 transition-all duration-300 ${
-        isFloating ? "shadow-2xl border border-white/20 dark:border-white/10" : ""
-      }`}
-    >
-      {/* Panel Header */}
-      <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-200/50 dark:border-white/10">
+    <div className="flex flex-col w-full rounded-2xl carbon-panel border-2 border-cyan-500/40 p-4 transition-all duration-300 shadow-[0_0_30px_rgba(6,182,212,0.2)]">
+      {/* Console Header */}
+      <div className="flex items-center justify-between pb-3 mb-3 border-b border-cyan-500/20 font-mono">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-500 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-purple-500/20">
-            <Sparkles className="w-4 h-4" />
+          <div className="w-8 h-8 rounded-lg bg-cyan-950 border border-cyan-500/50 flex items-center justify-center text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.4)]">
+            <Eye className="w-4 h-4 animate-pulse" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white">
-              Rover Vision AI
-            </h2>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-              Powered by Gemini Vision Engine
+            <div className="flex items-center gap-2">
+              <h2 className="text-xs font-bold uppercase text-white tracking-wider">
+                FRAME ANALYSIS & VISION AI DOCK
+              </h2>
+              <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[9px] font-bold border border-cyan-500/30">
+                GEMINI v1.5
+              </span>
+            </div>
+            <p className="text-[10px] text-slate-400 tracking-tight">
+              REAL-TIME NEURAL RECOGNITION CONSOLE
             </p>
           </div>
         </div>
 
-        <button
-          onClick={onClearHistory}
-          className="p-2 rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 transition-all"
-          title="Clear Chat History"
-        >
-          <Trash2 className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-2">
+          {messages.length > 0 && (
+            <button
+              onClick={onClearHistory}
+              className="p-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 border border-slate-700 transition-all text-xs font-mono"
+              title="Clear Log History"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Chat History List */}
-      <div className="flex-1 overflow-y-auto space-y-3 pr-1 text-xs">
+      {/* Main Analysis Log Output Feed */}
+      <div className="max-h-56 overflow-y-auto space-y-2.5 pr-1 font-mono text-xs">
         {messages.length === 0 && (
-          <div className="h-full flex flex-col items-center justify-center text-center p-4 text-slate-400">
-            <Bot className="w-8 h-8 mb-2 stroke-[1.5] text-purple-400/80" />
-            <p className="font-medium text-xs text-slate-600 dark:text-slate-300">
-              Ask AI to analyze the live camera feed
+          <div className="py-4 flex flex-col items-center justify-center text-center text-slate-400 gap-2 bg-slate-950/60 rounded-xl border border-cyan-500/20">
+            <Terminal className="w-6 h-6 text-cyan-400/70" />
+            <p className="font-bold text-cyan-300 text-xs uppercase tracking-wider">
+              AWAITING FRAME ANALYSIS COMMAND
             </p>
-            <p className="text-[11px] text-slate-400 mt-1 max-w-xs">
-              Tap a quick prompt below or type your custom query.
+            <p className="text-[10px] text-slate-400 max-w-md">
+              Type custom prompt below or select tactical quick queries:
             </p>
 
             {/* Quick Prompts */}
-            <div className="mt-4 flex flex-col gap-1.5 w-full">
+            <div className="flex flex-wrap gap-2 justify-center mt-1 max-w-xl">
               {samplePrompts.map((prompt, idx) => (
                 <button
                   key={idx}
                   onClick={() => onSendPrompt(prompt)}
-                  className="px-3 py-2 rounded-xl bg-slate-200/50 dark:bg-white/5 hover:bg-purple-500/10 hover:text-purple-600 dark:hover:text-purple-300 border border-slate-300/30 dark:border-white/10 text-left text-[11px] font-medium transition-all"
+                  className="px-2.5 py-1.5 rounded-lg bg-cyan-950/70 hover:bg-cyan-900/90 text-cyan-300 border border-cyan-500/30 text-[10px] font-mono transition-all hover:scale-105"
                 >
-                  ✨ "{prompt}"
+                  ⚡ "{prompt}"
                 </button>
               ))}
             </div>
@@ -98,17 +103,20 @@ export function RoverVisionPanel({
         {messages.map((msg, idx) => (
           <motion.div
             key={idx}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`max-w-[85%] p-3 rounded-2xl ${
+            className={`p-3 rounded-xl border ${
               msg.role === "user"
-                ? "ml-auto bg-blue-600 text-white rounded-br-xs shadow-md shadow-blue-500/20"
-                : "mr-auto bg-slate-200/80 dark:bg-white/10 text-slate-900 dark:text-slate-100 rounded-bl-xs border border-slate-300/40 dark:border-white/10"
+                ? "bg-cyan-950/80 border-cyan-500/50 text-cyan-200"
+                : "bg-slate-900/90 border-slate-700 text-amber-200"
             }`}
           >
-            <span className="text-[9px] font-bold tracking-wider uppercase block mb-1 opacity-60">
-              {msg.role === "user" ? "YOU" : "ROVER AI"}
-            </span>
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[9px] font-bold tracking-widest uppercase text-cyan-400">
+                {msg.role === "user" ? "> QUERY PROMPT" : ">> VISION AI TELEMETRY"}
+              </span>
+              <span className="text-[8px] text-slate-500">SYSTEM LOG #{idx + 1}</span>
+            </div>
             <p className="leading-relaxed whitespace-pre-wrap">{msg.text}</p>
           </motion.div>
         ))}
@@ -117,33 +125,39 @@ export function RoverVisionPanel({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mr-auto bg-slate-200/80 dark:bg-white/10 p-3 rounded-2xl rounded-bl-xs text-slate-600 dark:text-slate-300 flex items-center gap-2"
+            className="p-3 rounded-xl bg-cyan-950/90 border border-cyan-400/60 text-cyan-300 flex items-center gap-2.5"
           >
-            <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-500" />
-            <span className="font-medium text-xs">Analyzing current video frame...</span>
+            <Loader2 className="w-4 h-4 animate-spin text-cyan-400" />
+            <span className="font-bold text-xs uppercase tracking-wider">
+              CAPTURING CURRENT VIDEO FRAME & EXECUTING GEMINI INFERENCE...
+            </span>
           </motion.div>
         )}
       </div>
 
-      {/* Prompt Input Field */}
-      <div className="mt-3 pt-3 border-t border-slate-200/50 dark:border-white/10 flex items-center gap-2">
-        <input
-          type="text"
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Ask AI about video feed..."
-          className="flex-1 bg-slate-200/60 dark:bg-white/10 border border-slate-300/40 dark:border-white/10 rounded-2xl px-3.5 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-        />
+      {/* Hand-Drawn Sketch Prompt Input Box ("Frame Analysis - Prompt here.") */}
+      <div className="mt-3 pt-3 border-t border-cyan-500/20 flex items-center gap-2">
+        <div className="relative flex-1">
+          <input
+            type="text"
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            placeholder="Frame Analysis - Prompt here."
+            className="w-full bg-slate-950 border-2 border-cyan-500/40 rounded-xl px-4 py-2.5 text-xs font-mono text-cyan-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 shadow-[inset_0_0_10px_rgba(6,182,212,0.15)]"
+          />
+        </div>
         <motion.button
           whileTap={{ scale: 0.95 }}
           onClick={handleSend}
           disabled={isAnalyzing}
-          className="p-2.5 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 disabled:opacity-50 text-white shadow-md shadow-purple-500/25 transition-all"
+          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-50 text-slate-950 font-mono font-extrabold text-xs shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center gap-2 transition-all uppercase tracking-wider shrink-0"
         >
-          <Send className="w-4 h-4" />
+          <Send className="w-4 h-4 stroke-[2.5]" />
+          <span>ANALYZE</span>
         </motion.button>
       </div>
     </div>
   );
 }
+

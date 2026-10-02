@@ -2,115 +2,273 @@
 
 @layer base {
   :root {
-    --bg-page: #eef2f7;
-    --text-primary: #000000;
-    --text-secondary: #080808;
-    --glass-bg: rgba(252, 252, 252, 0.928);
-    --glass-border: rgba(255, 255, 255, 0.875);
-    --glass-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
-    --accent: #0066cc;
-    --accent-hover: #0052a3;
-    --accent-glow: rgba(4, 25, 45, 0.2);
-    --success: #10b981;
-    --danger: #ef4444;
-    --warning: #f59e0b;
-  }
-
-  .dark {
-    --bg-page: #000000;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --glass-bg: rgba(0, 0, 0, 0.72);
-    --glass-border: rgba(18, 17, 17, 0.15);
-    --glass-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.85), 0 0 0.5px 0.5px rgba(25, 24, 24, 0.2) inset;
-    --accent: #19baff;
-    --accent-hover: #16aaf4;
-    --accent-glow: rgba(17, 18, 19, 0.35);
-    --success: #00ffa2;
-    --danger: #ff0707;
-    --warning: #fdb500;
+    --bg-page: #d1d5db;
+    --text-primary: #334155;
+    --accent: #38bdf8;
   }
 }
 
 body {
-  background-color: var(--bg-page);
-  color: var(--text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
-  letter-spacing: -0.011em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #d1d5db;
+  color: #1e293b;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  user-select: none;
 }
 
-/* Apple Dynamic Wallpaper Image Background */
-.apple-wallpaper-bg {
+/* RoverX Metallic Skeu-Glass Panel Styling */
+.skeu-panel {
+  background: linear-gradient(170deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(15, 23, 42, 0.7) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.5),
+    0 12px 40px rgba(0, 0, 0, 0.7);
+}
+
+.skeu-panel-dark {
+  background: linear-gradient(170deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.85) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Skeuomorphic Metallic Button & Indent Effects */
+.skeu-button {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.15s ease;
+}
+
+.skeu-button:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+.skeu-button-active {
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  border: 1px solid rgba(96, 165, 250, 0.8);
+  box-shadow: 
+    0 0 15px rgba(37, 99, 235, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.skeu-indent {
+  background: rgba(4, 8, 14, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    inset 0 3px 8px rgba(0, 0, 0, 0.9),
+    0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Red Metallic Stop Button */
+.skeu-stop-button {
+  background: linear-gradient(180deg, rgba(239, 68, 68, 0.25) 0%, rgba(185, 28, 28, 0.35) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.6);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+.skeu-stop-button:hover {
+  background: linear-gradient(180deg, rgba(239, 68, 68, 0.4) 0%, rgba(185, 28, 28, 0.5) 100%);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    0 0 20px rgba(239, 68, 68, 0.5);
+}
+
+/* Background Ambient Lighting (Polished Silver) */
+.roverx-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  overflow: hidden;
-  background-image: url('/apple-wallpaper.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: opacity 0.5s ease;
+  background-color: #d1d5db;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 1px, transparent 1px, transparent 4px),
+    radial-gradient(circle at 50% 50%, #e5e7eb 0%, #9ca3af 100%);
 }
 
-/* Light mode overlay */
-.apple-wallpaper-bg::before {
-  content: "";
+/* Hardware Aesthetics Utilities */
+
+/* 1. Base Metallic Material (Used across panels and backgrounds) */
+.metal-surface {
+  background-color: #d1d5db;
+  background-image: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(200, 205, 215, 0.1) 40%, rgba(0, 0, 0, 0.25) 100%),
+    url('/textures/brushed-metal.jpg');
+  background-repeat: repeat;
+  background-size: 350px auto;
+  background-blend-mode: overlay;
+}
+
+/* 2. Raised Metal Panel */
+.metal-panel {
+  box-shadow: 1px 1px 1px rgba(255,255,255,0.9) inset, -1px -1px 1px rgba(0,0,0,0.3) inset, 6px 8px 15px rgba(0,0,0,0.4);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 1.5rem;
+}
+
+/* 3. Deep Recess / Cutout */
+.metal-recess {
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.6) inset, -2px -2px 4px rgba(255,255,255,0.7) inset;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(148, 163, 184, 0.2);
+}
+
+/* 4. Metallic Button */
+.metal-button {
+  background: linear-gradient(180deg, #f1f5f9 0%, #cbd5e1 100%);
+  box-shadow: 
+    inset 1px 1px 2px rgba(255,255,255,1), 
+    inset -1px -1px 2px rgba(0,0,0,0.2), 
+    2px 2px 4px rgba(0,0,0,0.5), 
+    -1px -1px 2px rgba(255,255,255,0.6);
+  border: 1px solid rgba(0,0,0,0.15);
+  transition: all 0.1s ease;
+}
+.metal-button:active {
+  box-shadow: 
+    inset 2px 2px 4px rgba(0,0,0,0.4), 
+    inset -1px -1px 2px rgba(255,255,255,0.5);
+  background: linear-gradient(180deg, #cbd5e1 0%, #f1f5f9 100%);
+}
+
+/* 5. Metallic D-Pad Dial */
+.metal-dpad {
+  background: conic-gradient(from 180deg, #9ca3af, #f3f4f6, #9ca3af, #f3f4f6, #9ca3af);
+  box-shadow: 
+    inset 1px 1px 3px rgba(255,255,255,0.8),
+    inset -1px -1px 3px rgba(0,0,0,0.3),
+    4px 4px 8px rgba(0,0,0,0.7),
+    -2px -2px 4px rgba(255,255,255,0.6);
+  border: 1px solid rgba(0,0,0,0.2);
+}
+
+/* 6. Engraved Text */
+.engraved-text {
+  text-shadow: 0px 1px 1px rgba(255,255,255,0.8), 0px -1px 1px rgba(0,0,0,0.4);
+  color: #475569;
+}
+.engraved-text-deep {
+  text-shadow: 0px 1px 1px rgba(255,255,255,0.8), 0px -1px 1px rgba(0,0,0,0.4);
+  color: #475569;
+}
+
+/* 7. LED Glow (Remains metallic, with localized blue glow) */
+.led-glow-blue {
+  box-shadow: 
+    inset 1px 1px 2px rgba(255,255,255,1), 
+    inset -1px -1px 2px rgba(0,0,0,0.2), 
+    2px 2px 4px rgba(0,0,0,0.5), 
+    -1px -1px 2px rgba(255,255,255,0.6),
+    inset 0 0 10px rgba(59,130,246,0.2), 
+    0 0 15px rgba(59,130,246,0.6) !important;
+  border-color: rgba(96, 165, 250, 0.4) !important;
+  color: #2563eb !important;
+  text-shadow: 0 0 8px rgba(59,130,246,0.8), 0px 1px 1px rgba(255,255,255,0.8), 0px -1px 1px rgba(0,0,0,0.1);
+}
+
+/* 8. Engraved Icon for SVGs */
+.engraved-icon {
+  filter: drop-shadow(0px 1px 1px rgba(255,255,255,0.8)) drop-shadow(0px -1px 1px rgba(0,0,0,0.4));
+  color: #475569;
+}
+
+.knurled-grip {
+  background-color: #94a3b8;
+  background-image: 
+    linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.2)),
+    linear-gradient(-45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.2));
+  background-size: 4px 4px;
+}
+
+.hardware-screw {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #e2e8f0 0%, #94a3b8 50%, #475569 100%);
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.7), inset -1px -1px 2px rgba(255,255,255,0.8), 0 1px 1px rgba(255,255,255,0.9);
+  position: relative;
+}
+.hardware-screw::before {
+  content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(27, 26, 26, 0.45) 0%, rgba(240, 244, 250, 0.3) 100%);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  top: 15%;
+  bottom: 15%;
+  left: 50%;
+  width: 1.5px;
+  background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
+  transform: translateX(-50%) rotate(45deg);
+  box-shadow: 1px 0 0 rgba(255,255,255,0.4);
+}
+.hardware-screw::after {
+  content: '';
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  top: 50%;
+  height: 1.5px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
+  transform: translateY(-50%) rotate(45deg);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.4);
 }
 
-/* Dark mode overlay */
-.dark .apple-wallpaper-bg::before {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.65) 0%, rgba(3, 7, 18, 0.75) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* Custom Vertical Slider Styling */
+input[type="range"].vertical-slider {
+  writing-mode: bt-lr; /* IE/Edge */
+  appearance: slider-vertical;
+  width: 8px;
+  height: 100%;
 }
 
-/* Apple Frosted Glass Effect */
-.apple-glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
 }
 
-/* Touch and Interaction optimizations */
-.touch-callout-none {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
+::-webkit-scrollbar-track {
+  background: rgba(10, 15, 22, 0.8);
 }
 
-/* Custom Apple Scrollbar */
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+
+/* Custom Tactical Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(15, 23, 42, 0.8);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(12, 12, 14, 0.845);
-  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.4);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(13, 13, 18, 0.5);
+  background: rgba(56, 189, 248, 0.7);
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   *,
   ::before,
   ::after {
