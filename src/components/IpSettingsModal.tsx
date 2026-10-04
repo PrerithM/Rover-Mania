@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Server, Save, Check } from "lucide-react";
+import { X, Server, Save, Check, Wifi, Globe, Cpu } from "lucide-react";
 
 interface IpSettingsModalProps {
   isOpen: boolean;
@@ -19,101 +19,167 @@ export function IpSettingsModal({
 }: IpSettingsModalProps) {
   const [ipAddress, setIpAddress] = useState(currentIp);
   const [saved, setSaved] = useState(false);
+  const [prevPropIp, setPrevPropIp] = useState(currentIp);
+
+  if (currentIp !== prevPropIp) {
+    setPrevPropIp(currentIp);
+    setIpAddress(currentIp);
+  }
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (!ipAddress.trim()) return;
-    onSaveIp(ipAddress.trim());
+    const cleanIp = ipAddress.trim();
+    onSaveIp(cleanIp);
     setSaved(true);
     setTimeout(() => {
       setSaved(false);
       onClose();
-    }, 800);
+    }, 600);
   };
+
+  const presets = [
+    { label: "Lab Default", ip: "10.248.130.62" },
+    { label: "Local AP", ip: "192.168.4.1" },
+    { label: "Home Network", ip: "192.168.1.120" },
+    { label: "Simulator", ip: "127.0.0.1" },
+  ];
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md font-mono">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md select-none font-sans">
+          {/* Backdrop Click */}
+          <div className="absolute inset-0" onClick={onClose} />
+
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="w-full max-w-md rounded-2xl carbon-panel p-6 shadow-[0_0_40px_rgba(6,182,212,0.3)] border-2 border-cyan-500/40 text-cyan-200"
+            exit={{ opacity: 0, scale: 0.95, y: 15 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="w-full max-w-lg metal-panel metal-surface p-7 rounded-3xl relative z-10 shadow-2xl text-slate-800"
           >
+            {/* Hardware Screws */}
+            <div className="absolute top-4 left-4 hardware-screw" />
+            <div className="absolute top-4 right-4 hardware-screw" />
+            <div className="absolute bottom-4 left-4 hardware-screw" />
+            <div className="absolute bottom-4 right-4 hardware-screw" />
+
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-cyan-500/20">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/50 flex items-center justify-center">
-                  <Server className="w-5 h-5" />
+            <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-400/30">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl metal-button flex items-center justify-center text-slate-700">
+                  <Server className="w-5 h-5 engraved-icon" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-black uppercase tracking-wider text-white">
-                    NETWORK & HUD ENDPOINTS
+                  <h3 className="text-base font-medium tracking-tight text-slate-800 engraved-text-deep">
+                    Network & Hardware Endpoints
                   </h3>
-                  <p className="text-[10px] text-slate-400">
-                    TARGET RASPBERRY PI NETWORK CONFIG
+                  <p className="text-[10px] font-bold tracking-wider text-slate-500 uppercase engraved-text">
+                    Target Raspberry Pi Configuration
                   </p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/60 transition-all"
+                className="p-2 rounded-xl metal-button text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4 engraved-icon" />
               </button>
             </div>
 
-            {/* Form */}
+            {/* IP Address Form */}
             <form onSubmit={handleSave} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-cyan-400 mb-1.5">
-                  RASPBERRY PI IP ADDRESS
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5 flex items-center gap-1.5 engraved-text">
+                  <Globe className="w-3.5 h-3.5 engraved-icon" />
+                  Raspberry Pi IP Address
                 </label>
                 <input
                   type="text"
                   value={ipAddress}
                   onChange={(e) => setIpAddress(e.target.value)}
                   placeholder="e.g. 10.248.130.62"
-                  className="w-full bg-slate-950 border-2 border-cyan-500/40 rounded-xl px-4 py-3 text-sm font-mono text-cyan-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 shadow-[inset_0_0_10px_rgba(6,182,212,0.15)]"
+                  autoFocus
+                  className="w-full metal-recess rounded-xl px-4 py-2.5 text-sm font-mono text-slate-800 placeholder-slate-400 focus:outline-none"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-950 border border-cyan-500/20">
-                  <span className="text-slate-400 block mb-0.5 text-[10px] uppercase">MOTOR WEBSOCKET</span>
-                  <span className="font-mono font-bold text-cyan-300">
-                    :8765 (ws://)
-                  </span>
-                </div>
-                <div className="p-3 rounded-xl bg-slate-950 border border-cyan-500/20">
-                  <span className="text-slate-400 block mb-0.5 text-[10px] uppercase">MEDIAMTX WHEP</span>
-                  <span className="font-mono font-bold text-cyan-300">
-                    :8889 (http://)
-                  </span>
+              {/* Quick Presets */}
+              <div>
+                <span className="block text-[10px] text-slate-500 uppercase tracking-wider mb-2 font-bold engraved-text">
+                  Quick Presets:
+                </span>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {presets.map((p) => (
+                    <button
+                      key={p.ip}
+                      type="button"
+                      onClick={() => setIpAddress(p.ip)}
+                      className={`px-2.5 py-1.5 rounded-full text-[10px] font-semibold transition-all truncate cursor-pointer ${
+                        ipAddress === p.ip
+                          ? "metal-button led-glow-blue"
+                          : "metal-button engraved-text text-slate-600 hover:text-slate-900"
+                      }`}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              <div className="pt-2 flex items-center justify-end gap-2">
+              {/* Port & Protocol Diagnostic Cards */}
+              <div className="grid grid-cols-2 gap-3 text-xs pt-1">
+                <div className="p-3.5 rounded-2xl metal-recess flex flex-col justify-between">
+                  <div className="flex items-center justify-between text-slate-500 text-[10px] uppercase font-bold">
+                    <span>Motor Controller</span>
+                    <Wifi className="w-3.5 h-3.5 text-blue-600" />
+                  </div>
+                  <div className="mt-1">
+                    <span className="font-mono font-bold text-slate-800 text-xs">
+                      ws://{ipAddress || "..."}:8765
+                    </span>
+                    <p className="text-[9px] text-slate-500 mt-0.5">Bi-directional PWM commands</p>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-2xl metal-recess flex flex-col justify-between">
+                  <div className="flex items-center justify-between text-slate-500 text-[10px] uppercase font-bold">
+                    <span>MediaMTX WHEP</span>
+                    <Cpu className="w-3.5 h-3.5 text-blue-600" />
+                  </div>
+                  <div className="mt-1">
+                    <span className="font-mono font-bold text-slate-800 text-xs truncate block">
+                      http://{ipAddress || "..."}:8889/cam
+                    </span>
+                    <p className="text-[9px] text-slate-500 mt-0.5">Low-latency WebRTC video</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-3 flex items-center justify-end gap-3 border-t border-slate-400/20">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2.5 rounded-xl text-xs font-bold uppercase text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/50 transition-all"
+                  className="px-4 py-2 rounded-full metal-button text-xs font-semibold uppercase text-slate-600 hover:text-slate-900 transition-all cursor-pointer engraved-text"
                 >
-                  CANCEL
+                  Cancel
                 </button>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   type="submit"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-extrabold shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all uppercase tracking-wider"
+                  className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer metal-button ${
+                    saved ? "bg-emerald-600 text-white shadow-emerald-500/30" : "led-glow-blue"
+                  }`}
                 >
                   {saved ? (
                     <>
-                      <Check className="w-4 h-4 text-emerald-300" /> CONFIRMED!
+                      <Check className="w-4 h-4 text-emerald-600" /> Saved!
                     </>
                   ) : (
                     <>
-                      <Save className="w-4 h-4" /> SAVE ENDPOINTS
+                      <Save className="w-4 h-4" /> Save Endpoints
                     </>
                   )}
                 </motion.button>
@@ -125,4 +191,3 @@ export function IpSettingsModal({
     </AnimatePresence>
   );
 }
-

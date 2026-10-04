@@ -4,17 +4,21 @@ import type { NextRequest } from 'next/server';
 export function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
-  // Protect all routes except /login and static assets/APIs
-  const isPublicPath = path === '/login' || path.startsWith('/_next') || path.startsWith('/api/auth');
+  // Public paths: Landing page (/), Login (/login), API routes, and static assets
+  const isPublicPath = 
+    path === '/' || 
+    path === '/login' || 
+    path.startsWith('/_next') || 
+    path.startsWith('/api') || 
+    path.includes('.'); // Static files like .png, .ico, .jpg
   
   const token = request.cookies.get('rover_auth')?.value || '';
 
+  // Protect /dashboard and any private routes
   if (!isPublicPath && !token) {
-    return NextResponse.redirect(new URL('/login', request.nextUrl));
-  }
-  
-  if (path === '/login' && token) {
-    return NextResponse.redirect(new URL('/', request.nextUrl));
+    const loginUrl = new URL('/login', request.nextUrl);
+    loginUrl.searchParams.set('from', path);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
