@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Server, Save, Check, Wifi, Globe, Cpu } from "lucide-react";
+import { cockpitAudio } from "@/utils/cockpitAudio";
 
 interface IpSettingsModalProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export function IpSettingsModal({
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (!ipAddress.trim()) return;
+    cockpitAudio.playTactileClick(1.2);
     const cleanIp = ipAddress.trim();
     onSaveIp(cleanIp);
     setSaved(true);
@@ -81,7 +83,10 @@ export function IpSettingsModal({
                 </div>
               </div>
               <button
-                onClick={onClose}
+                onClick={() => {
+                  cockpitAudio.playTactileClick(0.9);
+                  onClose();
+                }}
                 className="p-2 rounded-xl metal-button text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4 engraved-icon" />
@@ -115,7 +120,10 @@ export function IpSettingsModal({
                     <button
                       key={p.ip}
                       type="button"
-                      onClick={() => setIpAddress(p.ip)}
+                      onClick={() => {
+                        cockpitAudio.playTactileClick(1.05);
+                        setIpAddress(p.ip);
+                      }}
                       className={`px-2.5 py-1.5 rounded-full text-[10px] font-semibold transition-all truncate cursor-pointer ${
                         ipAddress === p.ip
                           ? "metal-button led-glow-blue"
@@ -145,14 +153,14 @@ export function IpSettingsModal({
 
                 <div className="p-3.5 rounded-2xl metal-recess flex flex-col justify-between">
                   <div className="flex items-center justify-between text-slate-500 text-[10px] uppercase font-bold">
-                    <span>MediaMTX WHEP</span>
+                    <span>Live Camera Stream</span>
                     <Cpu className="w-3.5 h-3.5 text-blue-600" />
                   </div>
                   <div className="mt-1">
                     <span className="font-mono font-bold text-slate-800 text-xs truncate block">
                       http://{ipAddress || "..."}:8889/cam
                     </span>
-                    <p className="text-[9px] text-slate-500 mt-0.5">Low-latency WebRTC video</p>
+                    <p className="text-[9px] text-slate-500 mt-0.5">Real-time HD video feed</p>
                   </div>
                 </div>
               </div>
@@ -161,7 +169,10 @@ export function IpSettingsModal({
               <div className="pt-3 flex items-center justify-end gap-3 border-t border-slate-400/20">
                 <button
                   type="button"
-                  onClick={onClose}
+                  onClick={() => {
+                    cockpitAudio.playTactileClick(0.9);
+                    onClose();
+                  }}
                   className="px-4 py-2 rounded-full metal-button text-xs font-semibold uppercase text-slate-600 hover:text-slate-900 transition-all cursor-pointer engraved-text"
                 >
                   Cancel

@@ -16,6 +16,7 @@ import {
   WifiOff,
   SlidersHorizontal,
 } from "lucide-react";
+import { cockpitAudio } from "@/utils/cockpitAudio";
 
 export default function DashboardControlPanel() {
   const router = useRouter();
@@ -90,6 +91,7 @@ export default function DashboardControlPanel() {
 
   // Emergency Stop Handler
   const handleEmergencyStop = useCallback(() => {
+    cockpitAudio.playEmergencyStop();
     setActiveDirection(null);
     sendCommand(0, 0);
   }, [setActiveDirection, sendCommand]);
@@ -107,21 +109,25 @@ export default function DashboardControlPanel() {
       switch (e.key.toLowerCase()) {
         case "w":
         case "arrowup":
+          cockpitAudio.playDpadActuate("up");
           setActiveDirection("up");
           sendCommand(1.0, 1.0);
           break;
         case "s":
         case "arrowdown":
+          cockpitAudio.playDpadActuate("down");
           setActiveDirection("down");
           sendCommand(-1.0, -1.0);
           break;
         case "a":
         case "arrowleft":
+          cockpitAudio.playDpadActuate("left");
           setActiveDirection("left");
           sendCommand(-1.0, 1.0);
           break;
         case "d":
         case "arrowright":
+          cockpitAudio.playDpadActuate("right");
           setActiveDirection("right");
           sendCommand(1.0, -1.0);
           break;
@@ -130,12 +136,15 @@ export default function DashboardControlPanel() {
           handleEmergencyStop();
           break;
         case "1":
+          cockpitAudio.playSliderNotch(700 + 0.3 * 800);
           setSpeedMultiplier(0.3);
           break;
         case "2":
+          cockpitAudio.playSliderNotch(700 + 0.6 * 800);
           setSpeedMultiplier(0.6);
           break;
         case "3":
+          cockpitAudio.playSliderNotch(700 + 1.0 * 800);
           setSpeedMultiplier(1.0);
           break;
         default:
@@ -179,6 +188,7 @@ export default function DashboardControlPanel() {
         customPrompt ||
         "Describe what you see in this live camera feed in one concise sentence.";
 
+      cockpitAudio.playCameraShutter();
       setIsAnalyzing(true);
       setMessages((prev) => [...prev, { role: "user", text: promptText }]);
 
@@ -203,6 +213,7 @@ export default function DashboardControlPanel() {
             { role: "ai", text: `Error: ${data.error}` },
           ]);
         } else {
+          cockpitAudio.playAiChime();
           setMessages((prev) => [...prev, { role: "ai", text: data.text }]);
         }
       } catch {
@@ -226,7 +237,7 @@ export default function DashboardControlPanel() {
   };
 
   return (
-    <div className="h-screen w-full metal-surface text-slate-800 flex flex-col font-sans overflow-hidden relative selection:bg-blue-500/20">
+    <div className="h-screen w-full metal-deck text-slate-800 flex flex-col font-sans overflow-hidden relative selection:bg-blue-500/20">
       {/* Top Navigation Bar */}
       <TopBar
         status={wsStatus}
@@ -247,10 +258,10 @@ export default function DashboardControlPanel() {
           />
         </div>
 
-        {/* Center Section: Visor Feed & AI Analysis */}
-        <div className="flex flex-col gap-6 lg:gap-8 flex-1 max-w-[850px] h-[620px] lg:h-[640px] justify-center items-center relative">
-          {/* Top: Visor Feed */}
-          <div className="w-full relative h-[460px] lg:h-[480px]">
+        {/* Center Section: Optical Monitor Feed & AI Neural Console */}
+        <div className="flex flex-col gap-4 flex-1 max-w-[850px] h-[620px] lg:h-[640px] justify-between items-center relative">
+          {/* Top: Camera / Vision Optical Monitor Feed */}
+          <div className="w-full flex-1 min-h-0 relative">
             <VisorFeed
               videoRef={videoRef}
               canvasRef={canvasRef}
@@ -263,7 +274,7 @@ export default function DashboardControlPanel() {
             />
           </div>
 
-          {/* Bottom: AI Analysis Panel */}
+          {/* Bottom: AI Analysis Console */}
           <div className="w-full shrink-0">
             <AiAnalysisPanel
               messages={messages}

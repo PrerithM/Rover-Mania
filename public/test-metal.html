@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { 
+  margin: 0; 
+  background: #1e293b; 
+  display: flex; 
+  flex-direction: column;
+  gap: 30px; 
+  padding: 30px; 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+  color: white; 
+}
+.row {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+}
+.panel {
+  width: 320px;
+  height: 480px;
+  border-radius: 28px;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.85);
+  box-shadow: 
+    inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95),
+    inset 1px 0 0.5px rgba(255, 255, 255, 0.6),
+    inset -1px 0 0.5px rgba(71, 85, 105, 0.3),
+    inset 0 -2px 1px rgba(30, 41, 59, 0.4),
+    0 4px 8px rgba(15, 23, 42, 0.15),
+    0 16px 36px -6px rgba(15, 23, 42, 0.3);
+  overflow: hidden;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Option A: Cold-Rolled Aerospace Titanium (Rich anisotropic specular flare) */
+.metal-a {
+  background-color: #cbd5e1;
+  background-image: 
+    /* Specular overhead studio highlight */
+    linear-gradient(175deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 35%, rgba(15, 23, 42, 0.22) 100%),
+    /* Anisotropic vertical reflection column */
+    linear-gradient(90deg, 
+      rgba(15, 23, 42, 0.15) 0%, 
+      rgba(255, 255, 255, 0.15) 20%, 
+      rgba(255, 255, 255, 0.55) 48%, 
+      rgba(255, 255, 255, 0.25) 75%, 
+      rgba(15, 23, 42, 0.18) 100%),
+    url("/textures/brushed-aluminum.jpg");
+  background-size: 100% 100%, 100% 100%, cover;
+  background-position: center;
+  background-blend-mode: overlay, soft-light, normal;
+}
+
+/* Option B: Luminous Apple Anodized Aluminum (Crisp, clean, silver sheen) */
+.metal-b {
+  background-color: #d8dee8;
+  background-image: 
+    radial-gradient(ellipse 90% 50% at 50% 0%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%),
+    linear-gradient(90deg, 
+      rgba(15, 23, 42, 0.08) 0%, 
+      rgba(255, 255, 255, 0.35) 30%, 
+      rgba(255, 255, 255, 0.6) 50%, 
+      rgba(255, 255, 255, 0.3) 70%, 
+      rgba(15, 23, 42, 0.1) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(15, 23, 42, 0.12) 100%),
+    url("/textures/brushed-aluminum.jpg");
+  background-size: 100% 100%, 100% 100%, 100% 100%, cover;
+  background-position: center;
+  background-blend-mode: soft-light, overlay, normal, normal;
+}
+
+/* Option C: Deep Machined Steel / Cyberpunk (High-contrast dramatic lighting) */
+.metal-c {
+  background-color: #94a3b8;
+  background-image: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(15, 23, 42, 0.3) 100%),
+    linear-gradient(90deg, 
+      rgba(0, 0, 0, 0.2) 0%, 
+      rgba(255, 255, 255, 0.6) 45%, 
+      rgba(255, 255, 255, 0.7) 50%, 
+      rgba(255, 255, 255, 0.3) 65%, 
+      rgba(0, 0, 0, 0.22) 100%),
+    url("/textures/brushed-aluminum.jpg");
+  background-size: 100% 100%, 100% 100%, cover;
+  background-position: center;
+  background-blend-mode: overlay, hard-light, normal;
+}
+
+.recess {
+  width: 100%;
+  height: 80px;
+  border-radius: 18px;
+  background-color: #94a3b8;
+  background-image: 
+    linear-gradient(180deg, rgba(15, 23, 42, 0.35) 0%, rgba(15, 23, 42, 0.05) 50%, rgba(255, 255, 255, 0.3) 100%),
+    url("/textures/brushed-deck.jpg");
+  background-size: 100% 100%, cover;
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  box-shadow: 
+    inset 0 4px 8px rgba(15, 23, 42, 0.5),
+    inset 0 1.5px 3px rgba(15, 23, 42, 0.6),
+    inset 0 -1.5px 1px rgba(255, 255, 255, 0.9),
+    0 1px 1px rgba(255, 255, 255, 0.85);
+  margin-top: 20px;
+}
+
+.btn {
+  width: 100%;
+  height: 48px;
+  border-radius: 24px;
+  background-color: #e2e8f0;
+  background-image: 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.2) 40%, rgba(15, 23, 42, 0.1) 100%),
+    url("/textures/brushed-aluminum.jpg");
+  background-size: 100% 100%, 300px 300px;
+  background-blend-mode: overlay, normal;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    inset 0 1.5px 0.5px #ffffff,
+    inset 0 -1.5px 0.5px rgba(51, 65, 85, 0.35),
+    0 2px 4px rgba(15, 23, 42, 0.18),
+    0 6px 14px -2px rgba(15, 23, 42, 0.22);
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1e293b;
+  font-weight: 600;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<h2>Cockpit Metal Lighting Exploration</h2>
+<div class="row">
+  <div>
+    <h3>Option A: Aerospace Titanium (Deep Sheen)</h3>
+    <div class="panel metal-a">
+      <div style="font-weight: 600; color: #1e293b; text-shadow: 0 1px 0 rgba(255,255,255,0.9);">Drive Control</div>
+      <div class="recess"></div>
+      <div class="btn">Normal Mode</div>
+    </div>
+  </div>
+
+  <div>
+    <h3>Option B: Luminous Anodized Aluminum (Apple/Hi-Fi Studio)</h3>
+    <div class="panel metal-b">
+      <div style="font-weight: 600; color: #1e293b; text-shadow: 0 1px 0 rgba(255,255,255,0.9);">Drive Control</div>
+      <div class="recess"></div>
+      <div class="btn">Normal Mode</div>
+    </div>
+  </div>
+
+  <div>
+    <h3>Option C: Precision Milled Steel (High Contrast)</h3>
+    <div class="panel metal-c">
+      <div style="font-weight: 600; color: #1e293b; text-shadow: 0 1px 0 rgba(255,255,255,0.9);">Drive Control</div>
+      <div class="recess"></div>
+      <div class="btn">Normal Mode</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

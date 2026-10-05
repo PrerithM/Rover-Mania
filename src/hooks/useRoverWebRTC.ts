@@ -67,11 +67,11 @@ export function useRoverWebRTC({
           new RTCSessionDescription({ type: "answer", sdp: answer })
         );
       } else {
-        setStreamError(`WHEP Stream HTTP Error: ${response.status}`);
+        setStreamError("Camera stream unavailable. Please check rover connection.");
         setIsVideoLive(false);
       }
-    } catch (err: any) {
-      setStreamError(err?.message || "Failed to initialize WebRTC connection.");
+    } catch {
+      setStreamError("Could not connect to camera.");
       setIsVideoLive(false);
     }
   }, [ip, port, streamName]);

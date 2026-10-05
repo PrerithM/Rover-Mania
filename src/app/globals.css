@@ -88,142 +88,299 @@ body {
     0 0 20px rgba(239, 68, 68, 0.5);
 }
 
-/* Background Ambient Lighting (Polished Silver) */
-.roverx-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-color: #d1d5db;
+/* Background Ambient Lighting & Seamless Brushed Metal Deck */
+.roverx-bg,
+.metal-deck {
+  background-color: #9aa5b5;
   background-image: 
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"),
-    repeating-linear-gradient(90deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 1px, transparent 1px, transparent 4px),
-    radial-gradient(circle at 50% 50%, #e5e7eb 0%, #9ca3af 100%);
+    /* Overhead Cockpit Key Spotlight */
+    radial-gradient(ellipse 75% 45% at 50% -5%, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 70%),
+    /* Vignette darkening towards edges for cinematic depth */
+    radial-gradient(circle at 50% 50%, transparent 50%, rgba(15, 23, 42, 0.35) 100%),
+    /* Vertical environmental lighting */
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(15, 23, 42, 0.15) 100%),
+    url('/textures/brushed-deck.jpg');
+  background-size: 100% 100%, 100% 100%, 100% 100%, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: screen, multiply, overlay, normal;
 }
 
 /* Hardware Aesthetics Utilities */
 
-/* 1. Base Metallic Material (Used across panels and backgrounds) */
+/* 1. Base Metallic Material (Used across panels and components) */
 .metal-surface {
-  background-color: #d1d5db;
+  background-color: #c7d1de;
   background-image: 
-    linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(200, 205, 215, 0.1) 40%, rgba(0, 0, 0, 0.25) 100%),
-    url('/textures/brushed-metal.jpg');
-  background-repeat: repeat;
-  background-size: 350px auto;
-  background-blend-mode: overlay;
+    /* Overhead Studio Specular Highlight */
+    linear-gradient(175deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.1) 35%, rgba(15, 23, 42, 0.2) 100%),
+    /* Anisotropic Vertical Specular Sheen (The signature reflection of brushed aluminum) */
+    linear-gradient(90deg, 
+      rgba(15, 23, 42, 0.14) 0%, 
+      rgba(255, 255, 255, 0.15) 20%, 
+      rgba(255, 255, 255, 0.6) 50%, 
+      rgba(255, 255, 255, 0.22) 75%, 
+      rgba(15, 23, 42, 0.16) 100%),
+    url('/textures/brushed-aluminum.jpg');
+  background-size: 100% 100%, 100% 100%, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay, soft-light, normal;
 }
 
-/* 2. Raised Metal Panel */
+/* 2. Raised CNC-Machined Metal Panel */
 .metal-panel {
-  box-shadow: 1px 1px 1px rgba(255,255,255,0.9) inset, -1px -1px 1px rgba(0,0,0,0.3) inset, 6px 8px 15px rgba(0,0,0,0.4);
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 1.5rem;
-}
-
-/* 3. Deep Recess / Cutout */
-.metal-recess {
-  box-shadow: 3px 3px 6px rgba(0,0,0,0.6) inset, -2px -2px 4px rgba(255,255,255,0.7) inset;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(148, 163, 184, 0.2);
-}
-
-/* 4. Metallic Button */
-.metal-button {
-  background: linear-gradient(180deg, #f1f5f9 0%, #cbd5e1 100%);
+  border-radius: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow: 
-    inset 1px 1px 2px rgba(255,255,255,1), 
-    inset -1px -1px 2px rgba(0,0,0,0.2), 
-    2px 2px 4px rgba(0,0,0,0.5), 
-    -1px -1px 2px rgba(255,255,255,0.6);
-  border: 1px solid rgba(0,0,0,0.15);
-  transition: all 0.1s ease;
+    /* Razor-sharp top chamfer catches light */
+    inset 0 1.5px 0.5px rgba(255, 255, 255, 0.98),
+    /* Left chamfer highlight */
+    inset 1.5px 0 0.5px rgba(255, 255, 255, 0.7),
+    /* Right milled shadow */
+    inset -1.5px 0 0.5px rgba(51, 65, 85, 0.3),
+    /* Bottom milled shadow */
+    inset 0 -2px 1px rgba(30, 41, 59, 0.45),
+    /* Physical grounding drop shadows */
+    0 2px 4px rgba(15, 23, 42, 0.15),
+    0 14px 32px -4px rgba(15, 23, 42, 0.25),
+    0 28px 60px -12px rgba(15, 23, 42, 0.3);
+  position: relative;
+}
+
+/* 3. Deep Precision-Milled Recess / Cutout */
+.metal-recess {
+  background-color: #94a3b8;
+  background-image: 
+    linear-gradient(180deg, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.06) 50%, rgba(255, 255, 255, 0.28) 100%),
+    url('/textures/brushed-deck.jpg');
+  background-size: 100% 100%, cover;
+  background-position: center;
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  box-shadow: 
+    /* Deep upper lip shadow */
+    inset 0 4.5px 9px rgba(15, 23, 42, 0.55),
+    inset 0 1.5px 3px rgba(15, 23, 42, 0.65),
+    /* Bottom lip reflective highlight */
+    inset 0 -1.5px 1px rgba(255, 255, 255, 0.95),
+    /* Outer highlight on the perimeter edge */
+    0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+/* 4. Milled Aluminum Tactile Button */
+.metal-button {
+  background-color: #dbe2ec;
+  background-image: 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.2) 42%, rgba(15, 23, 42, 0.12) 100%),
+    url('/textures/brushed-aluminum.jpg');
+  background-size: 100% 100%, 300px 300px;
+  background-position: center;
+  background-blend-mode: overlay, normal;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    inset 0 1.5px 0.5px #ffffff,
+    inset 0 -1.5px 0.5px rgba(51, 65, 85, 0.35),
+    0 2px 4px rgba(15, 23, 42, 0.16),
+    0 6px 14px -2px rgba(15, 23, 42, 0.2);
+  transition: all 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.metal-button:hover {
+  background-image: 
+    linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.35) 42%, rgba(15, 23, 42, 0.08) 100%),
+    url('/textures/brushed-aluminum.jpg');
+  border-color: #ffffff;
+  box-shadow: 
+    inset 0 1.5px 0.5px #ffffff,
+    inset 0 -1.5px 0.5px rgba(51, 65, 85, 0.25),
+    0 3px 6px rgba(15, 23, 42, 0.18),
+    0 8px 18px -2px rgba(15, 23, 42, 0.24);
 }
 .metal-button:active {
+  background-image: 
+    linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.05) 60%, rgba(255, 255, 255, 0.3) 100%),
+    url('/textures/brushed-aluminum.jpg');
+  border-color: rgba(51, 65, 85, 0.45);
   box-shadow: 
-    inset 2px 2px 4px rgba(0,0,0,0.4), 
-    inset -1px -1px 2px rgba(255,255,255,0.5);
-  background: linear-gradient(180deg, #cbd5e1 0%, #f1f5f9 100%);
+    inset 0 3px 6px rgba(15, 23, 42, 0.45),
+    inset 0 1px 2px rgba(15, 23, 42, 0.35),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.85),
+    0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: translateY(1.5px);
 }
 
-/* 5. Metallic D-Pad Dial */
+/* 5. Lathe-Turned Concentric Metallic D-Pad Dial */
 .metal-dpad {
-  background: conic-gradient(from 180deg, #9ca3af, #f3f4f6, #9ca3af, #f3f4f6, #9ca3af);
+  background: 
+    repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 2px, rgba(15, 23, 42, 0.06) 2px, rgba(15, 23, 42, 0.06) 3px),
+    conic-gradient(from 0deg, 
+      #8592a3 0deg, 
+      #ffffff 45deg, 
+      #717f91 90deg, 
+      #ffffff 135deg, 
+      #7c8a9c 180deg, 
+      #ffffff 225deg, 
+      #717f91 270deg, 
+      #ffffff 315deg, 
+      #8592a3 360deg);
+  border: 1px solid rgba(255, 255, 255, 0.95);
   box-shadow: 
-    inset 1px 1px 3px rgba(255,255,255,0.8),
-    inset -1px -1px 3px rgba(0,0,0,0.3),
-    4px 4px 8px rgba(0,0,0,0.7),
-    -2px -2px 4px rgba(255,255,255,0.6);
-  border: 1px solid rgba(0,0,0,0.2);
+    inset 0 2.5px 2px rgba(255, 255, 255, 0.98),
+    inset 0 -2.5px 2px rgba(30, 41, 59, 0.45),
+    inset 2px 0 2px rgba(255, 255, 255, 0.75),
+    inset -2px 0 2px rgba(30, 41, 59, 0.35),
+    0 8px 24px rgba(15, 23, 42, 0.3),
+    0 2px 4px rgba(15, 23, 42, 0.2);
 }
 
-/* 6. Engraved Text */
+/* 6. Precision Laser Engraved Text */
 .engraved-text {
-  text-shadow: 0px 1px 1px rgba(255,255,255,0.8), 0px -1px 1px rgba(0,0,0,0.4);
-  color: #475569;
+  text-shadow: 0 1px 0.5px rgba(255, 255, 255, 0.95), 0 -1px 0.5px rgba(15, 23, 42, 0.45);
+  color: #1e293b;
 }
 .engraved-text-deep {
-  text-shadow: 0px 1px 1px rgba(255,255,255,0.8), 0px -1px 1px rgba(0,0,0,0.4);
-  color: #475569;
+  text-shadow: 0 1px 0.5px rgba(255, 255, 255, 1), 0 -1px 1px rgba(15, 23, 42, 0.6);
+  color: #0f172a;
 }
 
-/* 7. LED Glow (Remains metallic, with localized blue glow) */
+/* 7. Illuminated Sapphire Metallic State */
 .led-glow-blue {
+  background: 
+    linear-gradient(180deg, rgba(239, 246, 255, 0.95) 0%, rgba(219, 234, 254, 0.85) 45%, rgba(191, 219, 254, 0.95) 100%) !important;
+  border-color: rgba(59, 130, 246, 0.8) !important;
   box-shadow: 
-    inset 1px 1px 2px rgba(255,255,255,1), 
-    inset -1px -1px 2px rgba(0,0,0,0.2), 
-    2px 2px 4px rgba(0,0,0,0.5), 
-    -1px -1px 2px rgba(255,255,255,0.6),
-    inset 0 0 10px rgba(59,130,246,0.2), 
-    0 0 15px rgba(59,130,246,0.6) !important;
-  border-color: rgba(96, 165, 250, 0.4) !important;
-  color: #2563eb !important;
-  text-shadow: 0 0 8px rgba(59,130,246,0.8), 0px 1px 1px rgba(255,255,255,0.8), 0px -1px 1px rgba(0,0,0,0.1);
+    inset 0 1.5px 1px #ffffff,
+    inset 0 -1.5px 1px rgba(37, 99, 235, 0.4),
+    0 0 0 1.5px rgba(59, 130, 246, 0.6),
+    0 0 18px rgba(59, 130, 246, 0.45),
+    0 2px 6px rgba(37, 99, 235, 0.25) !important;
+  color: #1d4ed8 !important;
+}
+.led-glow-blue .engraved-text {
+  color: #1d4ed8 !important;
+  text-shadow: 0 0 8px rgba(59, 130, 246, 0.7), 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+.led-glow-blue .engraved-icon {
+  color: #1d4ed8 !important;
+  filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.7)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9)) !important;
 }
 
 /* 8. Engraved Icon for SVGs */
 .engraved-icon {
-  filter: drop-shadow(0px 1px 1px rgba(255,255,255,0.8)) drop-shadow(0px -1px 1px rgba(0,0,0,0.4));
-  color: #475569;
+  filter: drop-shadow(0 1px 0.5px rgba(255, 255, 255, 0.95)) drop-shadow(0 -1px 0.5px rgba(15, 23, 42, 0.45));
+  color: #334155;
 }
 
+/* 9. CNC Machined Knurled Grip */
 .knurled-grip {
-  background-color: #94a3b8;
+  background-color: #cbd5e1;
   background-image: 
-    linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.2)),
-    linear-gradient(-45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.2));
-  background-size: 4px 4px;
+    repeating-linear-gradient(0deg, 
+      rgba(255, 255, 255, 0.8) 0px, 
+      rgba(255, 255, 255, 0.8) 1px, 
+      transparent 1px, 
+      transparent 3px, 
+      rgba(15, 23, 42, 0.3) 3px, 
+      rgba(15, 23, 42, 0.3) 4px),
+    linear-gradient(90deg, 
+      rgba(51, 65, 85, 0.5) 0%, 
+      rgba(255, 255, 255, 0.85) 50%, 
+      rgba(51, 65, 85, 0.5) 100%);
 }
 
+/* 10. Countersunk Machine Torx Screws */
 .hardware-screw {
-  width: 0.75rem;
-  height: 0.75rem;
+  position: absolute;
+  pointer-events: none;
+  z-index: 20;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #e2e8f0 0%, #94a3b8 50%, #475569 100%);
-  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.7), inset -1px -1px 2px rgba(255,255,255,0.8), 0 1px 1px rgba(255,255,255,0.9);
-  position: relative;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #cbd5e1 45%, #475569 100%);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  box-shadow: 
+    0 1px 1px rgba(255, 255, 255, 0.95), 
+    inset 0 2px 3.5px rgba(0, 0, 0, 0.75), 
+    inset 0 -1px 1.5px rgba(255, 255, 255, 0.8);
 }
 .hardware-screw::before {
   content: '';
   position: absolute;
-  top: 15%;
-  bottom: 15%;
+  top: 50%;
   left: 50%;
-  width: 1.5px;
-  background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
-  transform: translateX(-50%) rotate(45deg);
-  box-shadow: 1px 0 0 rgba(255,255,255,0.4);
+  transform: translate(-50%, -50%) rotate(35deg);
+  width: 7px;
+  height: 1.75px;
+  background: #1e293b;
+  box-shadow: 0 0.5px 0 rgba(255, 255, 255, 0.6), inset 0 1px 1px rgba(0, 0, 0, 0.95);
+  border-radius: 0.5px;
 }
 .hardware-screw::after {
   content: '';
   position: absolute;
-  left: 15%;
-  right: 15%;
   top: 50%;
-  height: 1.5px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
-  transform: translateY(-50%) rotate(45deg);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(125deg);
+  width: 7px;
+  height: 1.75px;
+  background: #1e293b;
+  box-shadow: 0 0.5px 0 rgba(255, 255, 255, 0.6), inset 0 1px 1px rgba(0, 0, 0, 0.95);
+  border-radius: 0.5px;
+}
+
+/* 11. Precision Recessed Optical Monitor Bezel */
+.monitor-bezel {
+  background-color: #0b111e;
+  border: 1px solid rgba(51, 65, 85, 0.65);
+  box-shadow: 
+    inset 0 4.5px 10px rgba(0, 0, 0, 0.9),
+    inset 0 1.5px 3px rgba(0, 0, 0, 0.95),
+    inset 0 -1.5px 1px rgba(255, 255, 255, 0.25),
+    0 1px 1px rgba(255, 255, 255, 0.85);
+}
+
+/* 12. Precision Lathe-Turned Optical Dial / Aperture Ring */
+.optical-dial {
+  background: 
+    repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 2px, rgba(15, 23, 42, 0.08) 2px, rgba(15, 23, 42, 0.08) 3px),
+    conic-gradient(from 0deg, 
+      #64748b 0deg, 
+      #cbd5e1 45deg, 
+      #475569 90deg, 
+      #e2e8f0 135deg, 
+      #475569 180deg, 
+      #cbd5e1 225deg, 
+      #475569 270deg, 
+      #e2e8f0 315deg, 
+      #64748b 360deg);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    inset 0 2px 2px rgba(255, 255, 255, 0.9),
+    inset 0 -2px 2px rgba(15, 23, 42, 0.7),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* 13. Deep Optical Screen Material */
+.optical-screen {
+  background: 
+    radial-gradient(ellipse 90% 70% at 50% 20%, rgba(30, 58, 138, 0.15) 0%, transparent 70%),
+    radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.95) 0%, rgba(3, 7, 18, 0.99) 100%);
+}
+
+/* 14. Brushed Silver Cavity for Camera Display */
+.metal-screen-cavity {
+  background-color: #b8c4d4;
+  background-image: 
+    radial-gradient(ellipse 85% 65% at 50% 15%, rgba(255, 255, 255, 0.75) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.16) 0%, rgba(255, 255, 255, 0.22) 50%, rgba(15, 23, 42, 0.12) 100%),
+    url('/textures/brushed-aluminum.jpg');
+  background-size: 100% 100%, 100% 100%, cover;
+  background-position: center;
+  box-shadow: 
+    inset 0 4.5px 10px rgba(15, 23, 42, 0.45),
+    inset 0 1.5px 3px rgba(15, 23, 42, 0.55),
+    inset 0 -1.5px 1px rgba(255, 255, 255, 0.95),
+    0 1px 1px rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(71, 85, 105, 0.45);
 }
 
 /* Custom Vertical Slider Styling */

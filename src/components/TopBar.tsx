@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ConnectionStatus } from "@/hooks/useRoverWebSocket";
-import { Wifi, Battery, Settings, ChevronDown, LogOut } from "lucide-react";
+import { Wifi, Battery, Settings, ChevronDown, LogOut, Volume2, VolumeX } from "lucide-react";
+import { cockpitAudio } from "@/utils/cockpitAudio";
 
 interface TopBarProps {
   status: ConnectionStatus;
@@ -23,8 +24,15 @@ export function TopBar({
   const isConnecting = status === "Connecting";
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isMuted, setIsMuted] = useState(() => cockpitAudio.getIsMuted());
+
+  const handleToggleSound = () => {
+    const muted = cockpitAudio.toggleMute();
+    setIsMuted(muted);
+  };
 
   const handleLogout = async () => {
+    cockpitAudio.playTactileClick();
     setIsLoggingOut(true);
     if (onLogout) {
       onLogout();
@@ -67,7 +75,10 @@ export function TopBar({
         {/* Connection Status Dropdown Pill */}
         <motion.button
           whileTap={{ scale: 0.96 }}
-          onClick={onOpenSettings}
+          onClick={() => {
+            cockpitAudio.playTactileClick();
+            onOpenSettings();
+          }}
           className="flex items-center gap-2 px-4 py-2 rounded-full metal-button text-xs font-semibold text-slate-700 transition-all cursor-pointer"
         >
           <span
@@ -85,13 +96,37 @@ export function TopBar({
           <ChevronDown className="w-3.5 h-3.5 text-slate-500 engraved-icon" />
         </motion.button>
 
+        {/* Audio Haptic Feedback Toggle Pill */}
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          onClick={handleToggleSound}
+          className={`p-2.5 rounded-full metal-button text-slate-700 transition-all cursor-pointer ${
+            !isMuted ? "border-blue-400/50 shadow-[0_0_8px_rgba(59,130,246,0.3)]" : "opacity-75"
+          }`}
+          title={isMuted ? "Sound Muted (Click to Enable)" : "Tactile Sound Enabled"}
+        >
+          {!isMuted ? (
+            <Volume2 className="w-4 h-4 text-blue-600 engraved-icon" />
+          ) : (
+            <VolumeX className="w-4 h-4 text-slate-400 engraved-icon" />
+          )}
+        </motion.button>
+
         {/* Wi-Fi Pill */}
-        <div className="p-2.5 rounded-full metal-button text-slate-700 cursor-pointer" title="Signal Strength">
+        <div
+          onClick={() => cockpitAudio.playTactileClick(1.2)}
+          className="p-2.5 rounded-full metal-button text-slate-700 cursor-pointer"
+          title="Signal Strength"
+        >
           <Wifi className="w-4 h-4 engraved-icon" />
         </div>
 
         {/* Battery Pill */}
-        <div className="flex items-center gap-2 px-4 py-2 rounded-full metal-button text-xs font-semibold text-slate-700" title="Telemetry Battery">
+        <div
+          onClick={() => cockpitAudio.playTactileClick(1.1)}
+          className="flex items-center gap-2 px-4 py-2 rounded-full metal-button text-xs font-semibold text-slate-700 cursor-pointer"
+          title="Telemetry Battery"
+        >
           <Battery className="w-4 h-4 engraved-icon text-slate-700" />
           <span className="engraved-text">78%</span>
         </div>
@@ -99,7 +134,10 @@ export function TopBar({
         {/* Settings Pill */}
         <motion.button
           whileTap={{ scale: 0.95 }}
-          onClick={onOpenSettings}
+          onClick={() => {
+            cockpitAudio.playTactileClick();
+            onOpenSettings();
+          }}
           className="p-2.5 rounded-full metal-button text-slate-700 hover:text-slate-900 transition-all cursor-pointer"
           title="Hardware Endpoints Configuration"
         >
@@ -111,15 +149,15 @@ export function TopBar({
           whileTap={{ scale: 0.95 }}
           onClick={handleLogout}
           disabled={isLoggingOut}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-full metal-button text-xs font-semibold text-red-600 hover:text-red-700 transition-all cursor-pointer disabled:opacity-50"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-full metal-button text-xs font-semibold text-slate-700 hover:text-rose-600 transition-all cursor-pointer disabled:opacity-50"
           title="Logout of Rover Cockpit"
         >
           {isLoggingOut ? (
             <span className="w-3.5 h-3.5 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
           ) : (
-            <LogOut className="w-4 h-4" />
+            <LogOut className="w-3.5 h-3.5 text-rose-500 drop-shadow-[0_1px_0_rgba(255,255,255,0.9)]" />
           )}
-          <span className="hidden sm:inline text-xs font-semibold">{isLoggingOut ? "Exit..." : "Logout"}</span>
+          <span className="hidden sm:inline text-xs font-medium engraved-text">{isLoggingOut ? "Exit..." : "Logout"}</span>
         </motion.button>
       </div>
     </header>
